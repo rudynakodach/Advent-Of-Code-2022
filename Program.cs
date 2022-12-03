@@ -2,102 +2,102 @@
 
 namespace AoC2022
 {
-	public static class Day1
-	{
-		public static string[] puzzleInput => File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/puzzleInputDay12022.txt").Split("\n");
+    public static class Day1
+    {
+        public static string[] puzzleInput => File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/puzzleInputDay12022.txt").Split("\n");
 
-		public static int max = 0;
+        public static int max = 0;
 
-		public static void Part1()
-		{
-			Console.WriteLine("Received {0} items", puzzleInput.Length);
+        public static void Part1()
+        {
+            Console.WriteLine("Received {0} items", puzzleInput.Length);
 
-			int max = 0;
+            int max = 0;
 
-			int currentlyHeldCalories = 0;
-
-
-			foreach (string item in puzzleInput)
-			{
-
-				Console.WriteLine($"Current item: {item}");
-
-				if (string.IsNullOrWhiteSpace(item))
-				{
-					Console.WriteLine("End");
-					if (max < currentlyHeldCalories)
-					{
-						Console.WriteLine($"New maximum value detected ({currentlyHeldCalories}). Old: {max}");
-						max = currentlyHeldCalories;
-					}
-					currentlyHeldCalories = 0;
-					continue;
-				}
-
-				currentlyHeldCalories += int.Parse(item);
+            int currentlyHeldCalories = 0;
 
 
-			}
-			Console.WriteLine("Max was {0}", max);
-		}
+            foreach (string item in puzzleInput)
+            {
 
-		public static void Part2()
-		{
-			int currentlyHeldCalories = 0;
-			List<int> largestNumbers = new();
+                Console.WriteLine($"Current item: {item}");
+
+                if (string.IsNullOrWhiteSpace(item))
+                {
+                    Console.WriteLine("End");
+                    if (max < currentlyHeldCalories)
+                    {
+                        Console.WriteLine($"New maximum value detected ({currentlyHeldCalories}). Old: {max}");
+                        max = currentlyHeldCalories;
+                    }
+                    currentlyHeldCalories = 0;
+                    continue;
+                }
+
+                currentlyHeldCalories += int.Parse(item);
 
 
-			List<int> calloriesHeld = new();
+            }
+            Console.WriteLine("Max was {0}", max);
+        }
 
-			foreach (string item in puzzleInput)
-			{
+        public static void Part2()
+        {
+            int currentlyHeldCalories = 0;
+            List<int> largestNumbers = new();
 
 
-				Console.WriteLine($"Current item: {item}");
+            List<int> calloriesHeld = new();
 
-				if (string.IsNullOrWhiteSpace(item))
-				{
-					Console.WriteLine("End");
-					calloriesHeld.Add(currentlyHeldCalories);
-					currentlyHeldCalories = 0;
-					continue;
-				}
-				currentlyHeldCalories += int.Parse(item);
-			}
+            foreach (string item in puzzleInput)
+            {
 
-			for (int x = 0; x < 3; x++)
-			{
-				int max = 0;
-				int index = 0;
-				for (int i = 0; i < calloriesHeld.Count; i++)
-				{
-					if (calloriesHeld[i] > max)
-					{
-						max = calloriesHeld[i];
-						index = i;
-						Console.WriteLine($"New max value of {max} was found at index {index} \t| MLEN: {calloriesHeld.Count}");
-					}
-				}
-				largestNumbers.Add(max);
-				calloriesHeld.RemoveAt(index);
-			}
-			int total = 0;
 
-			foreach (int item in largestNumbers)
-			{
-				total += item;
-			}
+                Console.WriteLine($"Current item: {item}");
 
-			Console.WriteLine("Total is {0}", total);
-		}
-	}
-	public static class Day2
-	{
-		public static string[] puzzleInput => File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/puzzleInputDay22022.txt").Split("\n", StringSplitOptions.RemoveEmptyEntries);
+                if (string.IsNullOrWhiteSpace(item))
+                {
+                    Console.WriteLine("End");
+                    calloriesHeld.Add(currentlyHeldCalories);
+                    currentlyHeldCalories = 0;
+                    continue;
+                }
+                currentlyHeldCalories += int.Parse(item);
+            }
 
-		public static int result = 0;
+            for (int x = 0; x < 3; x++)
+            {
+                int max = 0;
+                int index = 0;
+                for (int i = 0; i < calloriesHeld.Count; i++)
+                {
+                    if (calloriesHeld[i] > max)
+                    {
+                        max = calloriesHeld[i];
+                        index = i;
+                        Console.WriteLine($"New max value of {max} was found at index {index} \t| MLEN: {calloriesHeld.Count}");
+                    }
+                }
+                largestNumbers.Add(max);
+                calloriesHeld.RemoveAt(index);
+            }
+            int total = 0;
 
-		/*
+            foreach (int item in largestNumbers)
+            {
+                total += item;
+            }
+
+            Console.WriteLine("Total is {0}", total);
+        }
+    }
+    public static class Day2
+    {
+        public static string[] puzzleInput => File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/puzzleInputDay22022.txt").Split("\n", StringSplitOptions.RemoveEmptyEntries);
+
+        public static int result = 0;
+
+        /*
 		 *      score mechanic
 		 * 
 		 * 1 - rock         OPP: A  PLR: X
@@ -109,86 +109,86 @@ namespace AoC2022
 		 * 6 - win
 		 */
 
-		static Dictionary<char, int> points = new()
-		{
-			{'A', 1},
-			{'B', 2},
-			{'C', 3}
-		};
+        static Dictionary<char, int> points = new()
+        {
+            {'A', 1},
+            {'B', 2},
+            {'C', 3}
+        };
 
-		public static void Part1()
-		{
-			Console.WriteLine("Received {0} items", puzzleInput.Length); //debug purposes
+        public static void Part1()
+        {
+            Console.WriteLine("Received {0} items", puzzleInput.Length); //debug purposes
 
-			foreach (string item in puzzleInput)
-			{
-				string[] currentMatch = item.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            foreach (string item in puzzleInput)
+            {
+                string[] currentMatch = item.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-				char opponentsTurn = item[0];
-				char myTurn = 'E'; //E for empty
+                char opponentsTurn = item[0];
+                char myTurn = 'E'; //E for empty
 
-				Console.WriteLine(item);
+                Console.WriteLine(item);
 
-				switch (currentMatch[1][0])
-				{
-					case 'X':
-						myTurn = 'A';
-						break;
+                switch (currentMatch[1][0])
+                {
+                    case 'X':
+                        myTurn = 'A';
+                        break;
 
-					case 'Y':
-						myTurn = 'B';
-						break;
+                    case 'Y':
+                        myTurn = 'B';
+                        break;
 
-					case 'Z':
-						myTurn = 'C';
-						break;
-				}
+                    case 'Z':
+                        myTurn = 'C';
+                        break;
+                }
 
-				if (myTurn == 'E')
-				{
-					throw new Exception("Turn character was empty."); //do not allow for empty turns, can return false results
-				}
+                if (myTurn == 'E')
+                {
+                    throw new Exception("Turn character was empty."); //do not allow for empty turns, can return false results
+                }
 
-				if (opponentsTurn == myTurn) //easily exit draws
-				{
-					result += 3 + points[myTurn];
-					continue;
-				}
+                if (opponentsTurn == myTurn) //easily exit draws
+                {
+                    result += 3 + points[myTurn];
+                    continue;
+                }
 
-				//rest of the logic
-				if (myTurn == 'A' && opponentsTurn == 'C') //rock to scissors
-				{
-					result += 6 + points[myTurn];
-					Console.WriteLine($"{myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {6 + points[myTurn]}");
-					continue;
-				}
-				else if (myTurn == 'B' && opponentsTurn == 'A') //paper to rock
-				{
-					result += 6 + points[myTurn];
-					Console.WriteLine($"{myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {6 + points[myTurn]}");
-					continue;
-				}
-				else if (myTurn == 'C' && opponentsTurn == 'B') //scissors to paper
-				{
-					result += 6 + points[myTurn];
-					Console.WriteLine($"{myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {6 + points[myTurn]}");
-					continue;
-				}
-				else
-				{
-					result += points[myTurn];
-					Console.WriteLine($"Round lost. {myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {points[myTurn]}");
-					continue;
-				}
-			}
+                //rest of the logic
+                if (myTurn == 'A' && opponentsTurn == 'C') //rock to scissors
+                {
+                    result += 6 + points[myTurn];
+                    Console.WriteLine($"{myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {6 + points[myTurn]}");
+                    continue;
+                }
+                else if (myTurn == 'B' && opponentsTurn == 'A') //paper to rock
+                {
+                    result += 6 + points[myTurn];
+                    Console.WriteLine($"{myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {6 + points[myTurn]}");
+                    continue;
+                }
+                else if (myTurn == 'C' && opponentsTurn == 'B') //scissors to paper
+                {
+                    result += 6 + points[myTurn];
+                    Console.WriteLine($"{myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {6 + points[myTurn]}");
+                    continue;
+                }
+                else
+                {
+                    result += points[myTurn];
+                    Console.WriteLine($"Round lost. {myTurn} to {opponentsTurn}. Result is now {result}. | NEW POINTS: {points[myTurn]}");
+                    continue;
+                }
+            }
 
-			PublicMethods.DrawAnswer(ConsoleColor.Cyan, "Result:", result);
-		}
-		public static void Main()
-		{
-			int result = 0;
+            PublicMethods.DrawAnswer(ConsoleColor.Cyan, "Result:", result);
+        }
+        public static void Part2()
+        {
+            int result = 0;
 
-			/*
+            /*
 			*      game mechanics
 			* 
 			*	score
@@ -210,70 +210,173 @@ namespace AoC2022
 			*/
 
 
-			foreach (string item in puzzleInput)
-			{
-				string[] input = item.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            foreach (string item in puzzleInput)
+            {
+                string[] input = item.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-				char opponentsMove = input[0][0];
+                char opponentsMove = input[0][0];
 
 
                 if (input[1][0] == 'X')
-				{
-					//Round demanded for losing
-					if(opponentsMove == 'A')
-					{
-						result += points['C'];
-						continue;
-					}
-					else if (opponentsMove == 'B')
-					{
-						result += points['A'];
-						continue;
+                {
+                    //Round demanded for losing
+                    if (opponentsMove == 'A')
+                    {
+                        result += points['C'];
+                        continue;
+                    }
+                    else if (opponentsMove == 'B')
+                    {
+                        result += points['A'];
+                        continue;
                     }
                     else if (opponentsMove == 'C')
-					{
-						result += points['B'];
-						continue;
+                    {
+                        result += points['B'];
+                        continue;
                     }
                 }
-				else if (input[1][0] == 'Y') //draw demanded
-				{
-					result += 3 + points[opponentsMove];
-					Console.WriteLine($"Round ended with a draw. Got {3 + points[opponentsMove]} points and now result is {result}");
-					continue;
-				}			
-				else if (input[1][0] == 'Z')
-				{
-					if(opponentsMove == 'A')
-					{
-						result += 6 + points['B'];
-					}
-					else if (opponentsMove == 'B')
-					{
-						result += 6 + points['C'];
-					}
-					else if(opponentsMove == 'C')
-					{
-						result += 6 + points['A'];
-					}
-				}
-			}
+                else if (input[1][0] == 'Y') //draw demanded
+                {
+                    result += 3 + points[opponentsMove];
+                    Console.WriteLine($"Round ended with a draw. Got {3 + points[opponentsMove]} points and now result is {result}");
+                    continue;
+                }
+                else if (input[1][0] == 'Z')
+                {
+                    if (opponentsMove == 'A')
+                    {
+                        result += 6 + points['B'];
+                    }
+                    else if (opponentsMove == 'B')
+                    {
+                        result += 6 + points['C'];
+                    }
+                    else if (opponentsMove == 'C')
+                    {
+                        result += 6 + points['A'];
+                    }
+                }
+            }
 
-			PublicMethods.DrawAnswer(ConsoleColor.Red, "Final result: ", result);
-		}
-	}
+            PublicMethods.DrawAnswer(ConsoleColor.Red, "Final result: ", result);
+        }
+    }
 
-	public static class PublicMethods
-	{
-		public static void DrawAnswer(ConsoleColor lineColor, string message, object data)
-		{
-			Console.ForegroundColor = lineColor;
-			Console.WriteLine("\n-----------------------------------------------------\n");
-			Console.ResetColor();
-			Console.WriteLine("		{0:10}{1:35}", message, data.ToString());
-			Console.ForegroundColor = lineColor;
-			Console.WriteLine("\n-----------------------------------------------------\n");
-			Console.ResetColor();
-		}
-	}
+    public static class Day3
+    {
+        public static string[] puzzleInput => File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/puzzleInputDay32022.txt").Split("\n", StringSplitOptions.RemoveEmptyEntries);
+
+        public static char[] lowercaseLetters = Enumerable.Range('a', 'z' - 'a' + 1).Select(i => (char)i).ToArray();
+        public static char[] uppercaseLetters = Enumerable.Range('A', 'Z' - 'A' + 1).Select(i => (char)i).ToArray();
+
+        public static char[] letters = lowercaseLetters.Concat(uppercaseLetters).ToArray();
+
+        public static void Part1()
+        {
+            int result = 0;
+
+            foreach (string input in puzzleInput)
+            {
+                List<char> itemsInFirstCompartment = new();
+                List<char> itemsInSecondCompartment = new();
+
+                char repeatedCharacter = '\n'; // new line for empty
+
+                for (int x = 0; x < input.Length / 2; x++)
+                {
+                    itemsInFirstCompartment.Add(input[x]);
+                }
+                for (int x = input.Length / 2; x < input.Length; x++)
+                {
+                    itemsInSecondCompartment.Add(input[x]);
+                }
+
+                for (int i = 0; i < itemsInFirstCompartment.Count; i++)
+                {
+                    if (itemsInFirstCompartment.Contains(itemsInSecondCompartment[i]))
+                    {
+                        repeatedCharacter = itemsInSecondCompartment[i];
+                    }
+                }
+
+                if (repeatedCharacter == '\n')
+                {
+                    throw new Exception("Repeated character cannot be empty."); //dont allow false results
+                }
+
+                int pointsToAdd = (int)Array.IndexOf(letters, repeatedCharacter) + 1;
+
+                Console.WriteLine($"Current item: {input}\nFirst compartment = {string.Join("", itemsInFirstCompartment)}\nSecond compartment = {string.Join("", itemsInSecondCompartment)}\nRepeated character: {repeatedCharacter}\nPoints received: {pointsToAdd}\n");
+                result += pointsToAdd;
+            }
+            PublicMethods.DrawAnswer(ConsoleColor.Magenta, "Result: ", result);
+        }
+        public static void Main()
+        {
+            List<string> input = puzzleInput.ToList();
+            int result = 0;
+
+            List<List<string>> groups = new();
+
+            char repeatedCharacter = '\n'; // new line for empty
+
+            Console.WriteLine($"Received {groups.Count} items");
+
+            for (int i = 0; i < puzzleInput.Length; i += 3)
+            {
+                groups.Add(new List<string> { input[i].Trim(), input[i += 1].Trim(), input[i += 2].Trim() });
+            }
+
+            foreach (List<string> group in groups)
+            {
+                char[] firstGroup = group[0].ToCharArray();
+
+                for (int i = 0; i < firstGroup.Length; i++)
+                {
+                    if (group[1].Contains(firstGroup[i]))
+                    {
+                        if (group[2].Contains(firstGroup[i]))
+                        {
+                            repeatedCharacter = firstGroup[i];
+
+                            if (repeatedCharacter == '\n')
+                            {
+                                throw new Exception("Repeated character cannot be empty."); //dont allow false results
+                            }
+
+                            Console.WriteLine("---------------------------------------------------" +
+                                $"\nCurrent items: " +
+                                $"\n\t{group[0]}" +
+                                $"\n\t{group[1]}" +
+                                $"\n\t{group[2]}" +
+                                $"\n---------------------------------------------------");
+
+                            int pointsToAdd = Array.IndexOf(letters, repeatedCharacter) + 1;
+                            result += pointsToAdd;
+
+                            Console.WriteLine($"The repeated character was {repeatedCharacter} ({(int)repeatedCharacter}). Adding {pointsToAdd} pts.");
+
+                            repeatedCharacter = '\n';
+                        }
+                    }
+                }
+            }
+            PublicMethods.DrawAnswer(ConsoleColor.Green, "Answer: ", result);
+        }
+    }
+
+    public static class PublicMethods
+    {
+        public static void DrawAnswer(ConsoleColor lineColor, string message, object data)
+        {
+            Console.ForegroundColor = lineColor;
+            Console.WriteLine("\n-----------------------------------------------------\n");
+            Console.ResetColor();
+            Console.WriteLine($"\t{message}\t\t {data}");
+            Console.ForegroundColor = lineColor;
+            Console.WriteLine("\n-----------------------------------------------------\n");
+            Console.ResetColor();
+        }
+    }
 }
