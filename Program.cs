@@ -1,4 +1,7 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace AoC2022
 {
@@ -312,7 +315,7 @@ namespace AoC2022
             }
             PublicMethods.DrawAnswer(ConsoleColor.Magenta, "Result: ", result);
         }
-        public static void Main()
+        public static void Part2() //unsolved
         {
             List<string> input = puzzleInput.ToList();
             int result = 0;
@@ -322,11 +325,6 @@ namespace AoC2022
             char repeatedCharacter = '\n'; // new line for empty
 
             Console.WriteLine($"Received {groups.Count} items");
-
-            for (int i = 0; i < puzzleInput.Length; i += 3)
-            {
-                groups.Add(new List<string> { input[i].Trim(), input[i += 1].Trim(), input[i += 2].Trim() });
-            }
 
             foreach (List<string> group in groups)
             {
@@ -363,6 +361,70 @@ namespace AoC2022
                 }
             }
             PublicMethods.DrawAnswer(ConsoleColor.Green, "Answer: ", result);
+        }
+    }
+
+    public static class Day6
+    {
+        public static string example = "bvwbjplbgvbhsrlpgdmjqwftvncz";
+
+        public static string puzzleInput => File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/puzzleInputDay62022.txt");
+        public static void Part1()
+        {
+            string currentlyProcessedData = "";
+
+
+            for (int i = 0; i < puzzleInput.Length; i++)
+            {
+                currentlyProcessedData += puzzleInput[i];
+                if (currentlyProcessedData.Length >= 4)
+                {
+                    if (checkLastFourCharacters(currentlyProcessedData))
+                    {
+                        Console.WriteLine(currentlyProcessedData);
+                        Console.WriteLine($"The start-off-packet marker was completeted at char ind. {i += 1}");
+                        break;
+                    }
+                }
+            }
+        }
+
+        public static bool checkLast14Chars(string s) //for part 2 -- unsolved
+        {
+            List<char> alreadyExistingCharacters = new();
+
+            for (int i = s.Length - 1; i >= 14; i--)
+            {
+                if (alreadyExistingCharacters.Contains(s[i]))
+                {
+                    Console.WriteLine($"String {s} (len {s.Length}) failed the test @ ind. {i}\n" +
+                        $"Last scanned chars were {string.Join("", alreadyExistingCharacters)}");
+                    return false;
+                }
+                alreadyExistingCharacters.Add(s[i]);
+            }
+            Console.WriteLine($"String {s} (len {s.Length}) succeed. The last chars were {string.Join("", alreadyExistingCharacters)}");
+
+
+            return true;
+        }
+
+        public static bool checkLastFourCharacters(string s) //for both parts
+        {
+            List<char> alreadyExistingCharacters = new();
+
+            for (int i = s.Length - 1; i >= s.Length - 4; i--)
+            {
+                if (alreadyExistingCharacters.Contains(s[i]))
+                {
+                    Console.WriteLine($"String {s} failed the test.\nThe last chars were {string.Join("", alreadyExistingCharacters)}");
+                    return false;
+                }
+                alreadyExistingCharacters.Add(s[i]);
+            }
+            Console.WriteLine($"String {s} succeeded.\nThe last chars were {string.Join("", alreadyExistingCharacters)}");
+
+            return true;
         }
     }
 
