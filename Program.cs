@@ -379,7 +379,7 @@ namespace AoC2022
                 currentlyProcessedData += puzzleInput[i];
                 if (currentlyProcessedData.Length >= 4)
                 {
-                    if (checkLastFourCharacters(currentlyProcessedData))
+                    if (checkForDistinctCharacters(currentlyProcessedData, 4))
                     {
                         Console.WriteLine(currentlyProcessedData);
                         Console.WriteLine($"The start-off-packet marker was completeted at char ind. {i += 1}");
@@ -388,32 +388,31 @@ namespace AoC2022
                 }
             }
         }
-
-        public static bool checkLast14Chars(string s) //for part 2 -- unsolved
+        public static void Main()
         {
-            List<char> alreadyExistingCharacters = new();
+            string currentlyProcessedData = "";
 
-            for (int i = s.Length - 1; i >= 14; i--)
+
+            for (int i = 0; i < puzzleInput.Length; i++)
             {
-                if (alreadyExistingCharacters.Contains(s[i]))
+                currentlyProcessedData += puzzleInput[i];
+                if (currentlyProcessedData.Length >= 14)
                 {
-                    Console.WriteLine($"String {s} (len {s.Length}) failed the test @ ind. {i}\n" +
-                        $"Last scanned chars were {string.Join("", alreadyExistingCharacters)}");
-                    return false;
+                    if (checkForDistinctCharacters(currentlyProcessedData, 14))
+                    {
+                        Console.WriteLine(currentlyProcessedData);
+                        Console.WriteLine($"The start-off-message marker was completeted at char ind. {i += 1}");
+                        break;
+                    }
                 }
-                alreadyExistingCharacters.Add(s[i]);
             }
-            Console.WriteLine($"String {s} (len {s.Length}) succeed. The last chars were {string.Join("", alreadyExistingCharacters)}");
-
-
-            return true;
         }
 
-        public static bool checkLastFourCharacters(string s) //for both parts
+        public static bool checkForDistinctCharacters(string s, int count) //for both parts
         {
             List<char> alreadyExistingCharacters = new();
 
-            for (int i = s.Length - 1; i >= s.Length - 4; i--)
+            for (int i = s.Length - 1; i >= s.Length - count; i--)
             {
                 if (alreadyExistingCharacters.Contains(s[i]))
                 {
